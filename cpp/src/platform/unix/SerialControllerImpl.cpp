@@ -34,6 +34,10 @@
 #include "SerialControllerImpl.h"
 #include "platform/Log.h"
 
+#ifdef __ANDROID__
+#include "android.h"
+#endif
+
 #ifdef __sun
 // SunOS doesn't have the cfsetspeed convenience function.
 int
@@ -192,6 +196,8 @@ bool SerialControllerImpl::Init
 	
 #ifdef __NetBSD__
 	m_hSerialController = open( device.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
+#elif defined(__ANDROID__)
+  m_hSerialController = atoi(device.c_str());
 #else
 	m_hSerialController = open( device.c_str(), O_RDWR | O_NOCTTY, 0 );
 #endif
@@ -208,6 +214,7 @@ bool SerialControllerImpl::Init
 		Log::Write( LogLevel_Error, "ERROR: Cannot get exclusive lock for serial port %s. Error code %d", device.c_str(), errno );
 	}
 
+#ifndef __ANDROID__
 	int bits;
 	bits = 0;
 	ioctl( m_hSerialController, TIOCMSET, &bits );
@@ -299,6 +306,7 @@ bool SerialControllerImpl::Init
 	}
 
 	tcflush( m_hSerialController, TCIOFLUSH );
+#endif
 
 	// Open successful
  	Log::Write( LogLevel_Info, "Serial port %s opened (attempt %d)", device.c_str(), _attempts );
