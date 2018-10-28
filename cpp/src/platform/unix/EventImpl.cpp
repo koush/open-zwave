@@ -27,6 +27,9 @@
 //-----------------------------------------------------------------------------
 #include "Defs.h"
 #include "EventImpl.h"
+#ifdef __ANDROID__
+#include "android.h"
+#endif
 
 #include <stdio.h>
 #include <sys/time.h>
@@ -261,4 +264,3 @@ bool EventImpl::Wait
 	}
 	return result;
 }
-

@@ -31,6 +31,9 @@
 #include "Defs.h"
 #include "value_classes/ValueID.h"
 
+#undef assert
+#define assert(test) ((void)0)
+
 namespace OpenZWave
 {
 	/** \brief Provides a container for data sent via the notification callback

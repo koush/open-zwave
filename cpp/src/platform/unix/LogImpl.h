@@ -72,4 +72,3 @@ namespace OpenZWave
 } // namespace OpenZWave
 
 #endif //_LogImpl_H
-
