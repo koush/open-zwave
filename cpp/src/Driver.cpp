@@ -5274,6 +5274,16 @@ void Driver::DoControllerCommand
 			}
 			break;
 		}
+		case ControllerCommand_AddDeviceStop:
+		{
+			AddNodeStop( FUNC_ID_ZW_ADD_NODE_TO_NETWORK );
+			break;
+		}
+		case ControllerCommand_RemoveDeviceStop:
+		{
+			AddNodeStop( FUNC_ID_ZW_REMOVE_NODE_FROM_NETWORK );
+			break;
+		}
 		case ControllerCommand_HasNodeFailed:
 		{
 			Log::Write( LogLevel_Info, 0, "Requesting whether node %d has failed", m_currentControllerCommand->m_controllerCommandNode );
