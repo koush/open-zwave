@@ -45,6 +45,7 @@ namespace OpenZWave
 	 */
 	class OPENZWAVE_EXPORT CommandClass
 	{
+		friend class Node;
 
 	public:
 		enum
