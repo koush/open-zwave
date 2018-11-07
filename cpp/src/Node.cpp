@@ -1879,10 +1879,15 @@ void Node::ApplicationCommandHandler
 			// This command class message happens if the node is "asleep" and did not respond to node info query during startup.
 			// Dropping these messages on the floor is less than ideal. So create this command class implicitly
 			// and pass it up the stack.
-			Log::Write( LogLevel_Info, m_nodeId, "ApplicationCommandHandler - Unhandled Command Class 0x%.2x. Creating implicitly", _data[5] );
 			CommandClass* p = AddCommandClass( _data[5] );
-			p->CreateVars( 1 );
-			ApplicationCommandHandler( _data, encrypted );
+			if (p == NULL) {
+				Log::Write( LogLevel_Info, m_nodeId, "ApplicationCommandHandler - Unhandled Command Class 0x%.2x. Implicit creation failed. Command class not implemented", _data[5] );
+			}
+			else {
+				Log::Write( LogLevel_Info, m_nodeId, "ApplicationCommandHandler - Unhandled Command Class 0x%.2x. Creating implicitly", _data[5] );
+				p->CreateVars( 1 );
+				ApplicationCommandHandler( _data, encrypted );
+			}
 		}
 	}
 }
