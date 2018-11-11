@@ -323,7 +323,7 @@ bool UserCode::SetValue
 		msg->Append( GetCommandClassId() );
 		msg->Append( UserCodeCmd_Set );
 		msg->Append( value->GetID().GetIndex() );
-		msg->Append( UserCode_Occupied );
+		msg->Append( len ? UserCode_Occupied : UserCode_Available);
 		for( uint8 i = 0; i < len; i++ )
 		{
 			msg->Append( s[i] );
