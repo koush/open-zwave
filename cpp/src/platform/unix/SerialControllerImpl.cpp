@@ -70,6 +70,10 @@ SerialControllerImpl::~SerialControllerImpl
 (
 )
 {
+#ifdef __ANDROID__
+	m_closed = true;
+#endif
+
 	flock(m_hSerialController, LOCK_UN);
 	if(m_hSerialController >= 0)
 		close( m_hSerialController );
@@ -91,6 +95,10 @@ bool SerialControllerImpl::Open
 		return false;
 	}
 
+#ifdef __ANDROID__
+	m_closed = false;
+#endif
+
 	// Start the read thread
 	m_pThread = new Thread( "SerialController" );
 	m_pThread->Start( SerialReadThreadEntryPoint, this );
@@ -108,6 +116,10 @@ void SerialControllerImpl::Close
 {
 	if( m_pThread )
 	{
+#ifdef __ANDROID__
+		m_closed = true;
+#endif
+
 		m_pThread->Stop();
 		m_pThread->Release();
 		m_pThread = NULL;
@@ -340,6 +352,11 @@ void SerialControllerImpl::Read
 
 		do
 		{
+#ifdef __ANDROID__
+            if (m_closed) {
+                break;
+            }
+#endif
 			bytesRead = read( m_hSerialController, buffer, sizeof(buffer) );
 			if( bytesRead > 0 )
 				m_owner->Put( buffer, bytesRead );
@@ -347,6 +364,11 @@ void SerialControllerImpl::Read
 
 		do
 		{
+#ifdef __ANDROID__
+            if (m_closed) {
+                break;
+            }
+#endif
 			struct timeval *whenp;
 			fd_set rds, eds;
 			int oldstate;
