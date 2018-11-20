@@ -64,6 +64,9 @@ namespace OpenZWave
 		SerialController*	m_owner;
 		int			m_hSerialController;
 		Thread*			m_pThread;
+#ifdef __ANDROID__
+		bool		m_closed;
+#endif
 
 		static void SerialReadThreadEntryPoint( Event* _exitEvent, void* _content );
 	};
