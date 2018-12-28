@@ -57,9 +57,11 @@ string lookup,
 string &result
 )
 {
-
-
-    int response;
+#ifdef __ANDROID__
+	status = DNSError_InternalError;
+	return false;
+#else
+	int response;
     unsigned char query_buffer[1024];
     ns_msg nsMsg;
     ns_rr rr;
@@ -123,4 +125,5 @@ string &result
    	result = outb;
    	status = DNSError_None;
 	return true;
+#endif
 }
