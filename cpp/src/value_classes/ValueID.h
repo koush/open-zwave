@@ -284,6 +284,17 @@ namespace OpenZWave
 		        m_id = ((uint32)(id & 0xFFFFFFFF));
 		        m_id1 = (uint32)(id >> 32);
 		}
+
+		ValueID( uint32 const _homeId, uint8 const _nodeId, uint8 const _commandClassId, uint32 const _instance, uint16 _valueIndex, ValueType const _type ):
+				m_homeId( _homeId )
+		{
+			m_id = (((uint32)_nodeId)<<24)
+				   | (((uint32)_commandClassId)<<14)
+				   | (((uint32)(_instance & 0xFF))<<4)
+				   | ((uint32)_type);
+			m_id1 = (((uint32)_valueIndex)<<16);
+		}
+
 	private:
 		// Construct a value id for use in notifications
 		ValueID( uint32 const _homeId, uint8 const _nodeId ):
