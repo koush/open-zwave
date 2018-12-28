@@ -4100,6 +4100,26 @@ bool Manager::RemoveNode
 	return false;
 }
 
+bool Manager::AddDeviceStop(uint32 const _homeId) {
+	if (Driver *driver = GetDriver( _homeId ) ) {
+		LockGuard LG(driver->m_nodeMutex);
+		return driver->BeginControllerCommand(
+				Driver::ControllerCommand_AddDeviceStop,
+				NULL, NULL, true, 0, 0);
+	}
+	return false;
+}
+
+bool Manager::RemoveDeviceStop(uint32 const _homeId) {
+	if (Driver *driver = GetDriver(_homeId)) {
+		LockGuard LG(driver->m_nodeMutex);
+		return driver->BeginControllerCommand(
+				Driver::ControllerCommand_RemoveDeviceStop,
+				NULL, NULL, true, 0, 0);
+	}
+	return false;
+}
+
 //-----------------------------------------------------------------------------
 // <Manager::RemoveFailedNode>
 // Remove a Specific Device from the network if its non-responsive.

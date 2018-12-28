@@ -1903,6 +1903,9 @@ OPENZWAVE_EXPORT_WARNINGS_ON
 		 */
 		bool RemoveNode(uint32 const _homeId);
 
+		bool AddDeviceStop(uint32 const _homeId);
+		bool RemoveDeviceStop(uint32 const _homeId);
+
 		/**
 		 * \brief Remove a Failed Device from the Z-Wave Network
 		 * This Command will remove a failed node from the network. The Node should be on the Controllers Failed

@@ -487,6 +487,8 @@ OPENZWAVE_EXPORT_WARNINGS_ON
 			ControllerCommand_CreateNewPrimary,				/**< Add a new controller to the Z-Wave network. Used when old primary fails. Requires SUC. */
 			ControllerCommand_ReceiveConfiguration,			/**< Receive Z-Wave network configuration information from another controller. */
 			ControllerCommand_RemoveDevice,					/**< Remove a device or controller from the Z-Wave network. */
+			ControllerCommand_AddDeviceStop,                /**< Remove a device or controller from the Z-Wave network. */
+			ControllerCommand_RemoveDeviceStop,             /**< Remove a device or controller from the Z-Wave network. */
 			ControllerCommand_RemoveFailedNode,				/**< Move a node to the controller's failed nodes list. This command will only work if the node cannot respond. */
 			ControllerCommand_HasNodeFailed,				/**< Check whether a node is in the controller's failed nodes list. */
 			ControllerCommand_ReplaceFailedNode,			/**< Replace a non-responding node with another. The node must be in the controller's list of failed nodes for this command to succeed. */
