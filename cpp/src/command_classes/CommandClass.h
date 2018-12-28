@@ -53,6 +53,7 @@ class Value;
  */
 class OPENZWAVE_EXPORT CommandClass
 {
+	friend class Node;
 
 public:
 	enum
