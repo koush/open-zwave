@@ -235,6 +235,11 @@ namespace OpenZWave
 			m_id1 = (((uint32)_instance)<<24);
 		}
 
+		ValueID( uint32 const _homeId, uint8 const _nodeId, uint8 const _commandClassId, uint32 const _instance, uint16 _valueIndex, ValueType const _type ):
+				ValueID(_homeId, _nodeId, ValueGenre::ValueGenre_Basic, _commandClassId, _instance, _valueIndex, _type)
+		{
+		}
+
 		/* construct a ValueID based on the HomeID and the unit64 returned from GetID
 		 * \param _homeId - The HomeID 
 		 * \param id - The ID returned from ValueID::GetID
