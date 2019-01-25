@@ -2894,8 +2894,11 @@ bool Manager::SetValue
 					}
 					break;
 				}
+				case ValueID::ValueType_Button: {
+					res = PressButton( _id );
+					break;
+				}
 				case ValueID::ValueType_Schedule:
-				case ValueID::ValueType_Button:
 				{
 					OZW_ERROR(OZWException::OZWEXCEPTION_CANNOT_CONVERT_VALUEID, "ValueID passed to GetValueFloatPrecision is not a Decimal Value");
 					break;
