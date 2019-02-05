@@ -577,14 +577,18 @@ OPENZWAVE_EXPORT_WARNINGS_ON
 			MsgQueue_Count		// Number of message queues
 		};
 
-		void SendMsg( Msg* _msg, MsgQueue const _queue );
+		void SendMsg( Msg* _msg, MsgQueue _queue );
 
 		/**
 		 * Fetch the transmit options
 		 */
 		uint8 GetTransmitOptions()const{ return m_transmitOptions; }
 
+		static void setThreadQueueModeImmediate(bool immediate);
+		static bool getThreadQueueModeImmediate();
+
 	private:
+
 		/**
 		 *  If there are messages in the send queue (m_sendQueue), gets the next message in the
 		 *  queue and writes it to the serial port.  In sending the message, SendMsg also initializes

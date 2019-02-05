@@ -961,6 +961,14 @@ void Driver::RetryQueryStageComplete
 	m_sendMutex->Unlock();
 }
 
+static thread_local bool queueImmediate = false;
+void Driver::setThreadQueueModeImmediate(bool immediate) {
+	queueImmediate = immediate;
+}
+bool Driver::getThreadQueueModeImmediate() {
+	return queueImmediate;
+}
+
 //-----------------------------------------------------------------------------
 // <Driver::SendMsg>
 // Queue a message to be sent to the Z-Wave PC Interface
@@ -968,10 +976,14 @@ void Driver::RetryQueryStageComplete
 void Driver::SendMsg
 (
 		Msg* _msg,
-		MsgQueue const _queue
+		MsgQueue _queue
 )
 {
 	MsgQueueItem item;
+
+	if (queueImmediate) {
+	    _queue = MsgQueue_Command;
+	}
 
 	item.m_command = MsgQueueCmd_SendMsg;
 	item.m_msg = _msg;
@@ -1024,7 +1036,7 @@ void Driver::SendMsg
 	}
 	Log::Write( LogLevel_Detail, GetNodeNumber( _msg ), "Queuing (%s) %s", c_sendQueueNames[_queue], _msg->GetAsString().c_str() );
 	m_sendMutex->Lock();
-	m_msgQueue[_queue].push_back( item );
+    m_msgQueue[_queue].push_back( item );
 	m_queueEvent[_queue]->Set();
 	m_sendMutex->Unlock();
 }

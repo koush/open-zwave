@@ -1249,6 +1249,7 @@ OPENZWAVE_EXPORT_WARNINGS_ON
 		 * \throws OZWException with Type OZWException::OZWEXCEPTION_INVALID_HOMEID if the Driver cannot be found
 		 */
 		bool SetValue( ValueID const& _id, string const& _value );
+		bool SetValueImmediate( ValueID const& _id, string const& _value );
 
 		/**
 		 * \brief Sets the selected item in a list.

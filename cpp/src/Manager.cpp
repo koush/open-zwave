@@ -2770,6 +2770,25 @@ bool Manager::SetValueListSelection
 	return res;
 }
 
+bool Manager::SetValueImmediate
+		(
+				ValueID const& _id,
+				string const& _value
+		)
+{
+	bool previous = Driver::getThreadQueueModeImmediate();
+	try {
+		Driver::setThreadQueueModeImmediate(true);
+		bool ret = SetValue( _id, _value );
+        Driver::setThreadQueueModeImmediate(previous);
+		return ret;
+	}
+	catch(...) {
+		Driver::setThreadQueueModeImmediate(previous);
+		throw;
+	}
+}
+
 //-----------------------------------------------------------------------------
 // <Manager::SetValue>
 // Sets the value from a string
