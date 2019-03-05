@@ -51,6 +51,7 @@ namespace OpenZWave
 	class Thread;
 	class ControllerReplication;
 	class Notification;
+	class TimerThread;
 
 	/** \brief The Driver class handles communication between OpenZWave
 	 *  and a device attached via a serial port (typically a controller).
@@ -75,6 +76,7 @@ namespace OpenZWave
 		friend class WakeUp;
 		friend class Security;
 		friend class Msg;
+		friend class TimerThread;
 
 	//-----------------------------------------------------------------------------
 	//	Controller Interfaces
@@ -165,6 +167,17 @@ namespace OpenZWave
 		void RequestConfig();							// Get the network configuration from the Z-Wave network
 		bool ReadConfig();								// Read the configuration from a file
 		void WriteConfig();								// Save the configuration to a file
+
+
+	//-----------------------------------------------------------------------------
+	//	Timer
+	//-----------------------------------------------------------------------------
+	private:
+		TimerThread*    m_timer;					/**< TimerThread Class */
+		Thread*         m_timerThread;    /**< Thread for timer events */
+
+	public:
+		TimerThread*		GetTimer() { return m_timer; }
 
 	//-----------------------------------------------------------------------------
 	//	Controller
