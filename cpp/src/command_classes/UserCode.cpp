@@ -324,9 +324,17 @@ bool UserCode::SetValue
 		msg->Append( UserCodeCmd_Set );
 		msg->Append( value->GetID().GetIndex() );
 		msg->Append( len ? UserCode_Occupied : UserCode_Available);
-		for( uint8 i = 0; i < len; i++ )
-		{
-			msg->Append( s[i] );
+		if (len) {
+			for( uint8 i = 0; i < len; i++ )
+			{
+				msg->Append( s[i] );
+			}
+		}
+		else {
+			for( uint8 i = 0; i < 4; i++ )
+			{
+				msg->Append( 0 );
+			}
 		}
 		msg->Append( GetDriver()->GetTransmitOptions() );
 		GetDriver()->SendMsg( msg, Driver::MsgQueue_Send );
