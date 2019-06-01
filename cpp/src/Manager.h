@@ -1816,6 +1816,8 @@ OPENZWAVE_EXPORT_WARNINGS_ON
 
         bool AddDeviceStop(uint32 const _homeId);
         bool RemoveDeviceStop(uint32 const _homeId);
+        bool RemoveCommandClass(uint32 const _homeId, uint8 const _nodeId, uint8 const _commandClassId);
+        bool RemoveRefreshNode(uint32 const _homeId, uint8 const _nodeId);
 
 		/**
 		 * \brief Remove a Failed Device from the Z-Wave Network

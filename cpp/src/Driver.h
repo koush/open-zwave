@@ -402,7 +402,7 @@ OPENZWAVE_EXPORT_WARNINGS_ON
 		 *  \param _length The length of the _protocolInfo field
 		 *  \see Notification::Type_NodeAdded, Notification::Type_NodeRemoved, Node::QueryStage_None,
 		 */
-		void InitNode( uint8 const _nodeId, bool newNode = false, bool secure = false, uint8 const *_protocolInfo = NULL, uint8 const _length = 0);
+		void InitNode( uint8 const _nodeId, bool newNode = false, bool secure = false, uint8 const *_protocolInfo = NULL, uint8 const _length = 0, bool _silentReadd = false);
 
 		void InitAllNodes();												// Delete all nodes and fetch the data from the Z-Wave network again.
 

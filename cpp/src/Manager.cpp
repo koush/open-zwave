@@ -3754,28 +3754,64 @@ bool Manager::RemoveNode
 	return false;
 }
 
-bool Manager::AddDeviceStop(uint32 const _homeId) {
-    {
-        if (Driver *driver = GetDriver( _homeId ) ) {
-            LockGuard LG(driver->m_nodeMutex);
-            return driver->BeginControllerCommand(
-                    Driver::ControllerCommand_AddDeviceStop,
-                    NULL, NULL, true, 0, 0);
-        }
-        return false;
-    }
+bool Manager::AddDeviceStop(
+		uint32 const _homeId
+)
+{
+	if (Driver *driver = GetDriver( _homeId ) ) {
+		LockGuard LG(driver->m_nodeMutex);
+		return driver->BeginControllerCommand(
+				Driver::ControllerCommand_AddDeviceStop,
+				NULL, NULL, true, 0, 0);
+	}
+	return false;
 }
 
-bool Manager::RemoveDeviceStop(uint32 const _homeId) {
-    {
-        if (Driver *driver = GetDriver(_homeId)) {
-            LockGuard LG(driver->m_nodeMutex);
-            return driver->BeginControllerCommand(
-                    Driver::ControllerCommand_RemoveDeviceStop,
-                    NULL, NULL, true, 0, 0);
+bool Manager::RemoveDeviceStop(
+		uint32 const _homeId
+)
+{
+	if (Driver *driver = GetDriver(_homeId)) {
+		LockGuard LG(driver->m_nodeMutex);
+		return driver->BeginControllerCommand(
+				Driver::ControllerCommand_RemoveDeviceStop,
+				NULL, NULL, true, 0, 0);
+	}
+	return false;
+}
+
+bool Manager::RemoveCommandClass
+        (
+                uint32 const _homeId,
+                uint8 const _nodeId,
+                uint8 const _commandClassId
+        )
+{
+    if (Driver *driver = GetDriver(_homeId)) {
+        LockGuard LG(driver->m_nodeMutex);
+        Node* node = driver->m_nodes[_nodeId];
+        if (node == NULL) {
+            return false;
         }
-        return false;
+
+        node->RemoveCommandClass(_commandClassId);
+        return true;
     }
+    return false;
+}
+
+bool Manager::RemoveRefreshNode
+        (
+                uint32 const _homeId,
+                uint8 const _nodeId
+        )
+{
+    if (Driver *driver = GetDriver(_homeId)) {
+        LockGuard LG(driver->m_nodeMutex);
+        driver->InitNode(_nodeId, false, false, 0, 0, true);
+        return true;
+    }
+    return false;
 }
 
 //-----------------------------------------------------------------------------

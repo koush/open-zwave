@@ -4437,19 +4437,24 @@ void Driver::InitNode
 		bool newNode,
 		bool secure,
 		uint8 const *_protocolInfo,
-		uint8 const _length
+		uint8 const _length,
+		bool _silentReadd
 )
 {
+	bool deleted = false;
 	// Delete any existing node and replace it with a new one
 	{
 		LockGuard LG(m_nodeMutex);
 		if( m_nodes[_nodeId] )
 		{
 			// Remove the original node
+			deleted = true;
 			delete m_nodes[_nodeId];
-			Notification* notification = new Notification( Notification::Type_NodeRemoved );
-			notification->SetHomeAndNodeIds( m_homeId, _nodeId );
-			QueueNotification( notification );
+			if (!_silentReadd) {
+				Notification* notification = new Notification( Notification::Type_NodeRemoved );
+				notification->SetHomeAndNodeIds( m_homeId, _nodeId );
+				QueueNotification( notification );
+			}
 		}
 
 		// Add the new node
@@ -4457,9 +4462,11 @@ void Driver::InitNode
 		if (newNode == true) static_cast<Node *>(m_nodes[_nodeId])->SetAddingNode();
 	}
 
-	Notification* notification = new Notification( Notification::Type_NodeAdded );
-	notification->SetHomeAndNodeIds( m_homeId, _nodeId );
-	QueueNotification( notification );
+	if (!deleted || !_silentReadd) {
+		Notification* notification = new Notification( Notification::Type_NodeAdded );
+		notification->SetHomeAndNodeIds( m_homeId, _nodeId );
+		QueueNotification( notification );
+	}
 
 	if (_length == 0) {
 		// Request the node info
